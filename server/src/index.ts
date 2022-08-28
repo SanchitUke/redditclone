@@ -43,7 +43,7 @@ const main = async () => {
 
     app.use(
         cors({
-            origin: 'http://localhost:3000',
+            origin: 'http://localhost:3001',
             credentials: true
         })
     );
@@ -58,7 +58,9 @@ const main = async () => {
                  maxAge: 1000 * 60 * 60 * 24 * 365 * 10, //10 years
                  httpOnly: true,
                  sameSite: "lax", //csrf
-                 secure: _prod_
+                 secure: _prod_,
+                //  sameSite: "none", //csrf
+                //  secure: true
              },
             saveUninitialized: false,
             secret: "asdfghjkl",
@@ -81,8 +83,8 @@ const main = async () => {
     });
 
 
-    app.listen(4000, () => {
-        console.log("server started on localhost: 4000");
+    app.listen(4001, () => {
+        console.log("server started on localhost: 4001");
     });
 };
 

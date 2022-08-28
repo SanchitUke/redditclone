@@ -7,8 +7,8 @@ import { Users } from "./entities/User";
 
 export const dataSource = new DataSource({
     type: "postgres",
-    username: "postgres",
-    password: "postgres",
+    username: "postgres",//"ubuntu",
+    password: "postgres",//"asdfghjkl",
     database: "redditclone2",
     logging: true,
     synchronize: true,
