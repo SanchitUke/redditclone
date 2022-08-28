@@ -7,11 +7,11 @@ import { Users } from "./entities/User";
 
 export const dataSource = new DataSource({
     type: "postgres",
-    username: "postgres",//"ubuntu",
-    password: "postgres",//"asdfghjkl",
+    username: "ubuntu",
+    password: "asdfghjkl",
     database: "redditclone2",
     logging: true,
     synchronize: true,
-    migrations: [path.join(__dirname, "./migrations/*")],
+   // migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, Users, Updoot]
 });
