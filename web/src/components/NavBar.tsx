@@ -37,7 +37,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                 </NextLink>
                 <Box mr={2}>{data.me.username}</Box>
                 <Button onClick = { async() => {
-                    await logout();
+                    await logout({});
                     router.reload();
                 }}
                 isLoading =  {logoutFetching}

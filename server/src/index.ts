@@ -17,9 +17,11 @@ import { Users } from "./entities/User";
 import { dataSource } from "./typeormconfig";
 import { createUserLoader } from "./utils/createUserLoader";
 import { createUpdootLoader } from "./utils/createUpdootLoader";
+import 'dotenv/config';
 
 const main = async () => {
 
+    
     //sendEmail('bob@bob.com', 'hello there');
     // const dataSource = new DataSource({
     //     type: "postgres",
@@ -43,10 +45,14 @@ const main = async () => {
 
     app.use(
         cors({
-            origin: 'http://localhost:3001',
+            origin: process.env.FRONTEND_URL,
             credentials: true
         })
     );
+    const appSecret = process.env.APP_SECRET;
+    if(!appSecret) {
+        throw new Error("APP_SECRET not found");
+    }
     app.use(
         session({
             name: COOKIE_NAME,
@@ -63,7 +69,7 @@ const main = async () => {
                 //  secure: true
              },
             saveUninitialized: false,
-            secret: "asdfghjkl",
+            secret: appSecret,
             resave: false,
         })
       );
@@ -82,9 +88,9 @@ const main = async () => {
         cors: false
     });
 
-
-    app.listen(4001, () => {
-        console.log("server started on localhost: 4001");
+    const appPort = parseInt(process.env.APP_PORT!);
+    app.listen(appPort, () => {
+        console.log(`server started on localhost: ${appPort}`);
     });
 };
 

@@ -8,6 +8,7 @@ import { validateRegister } from "../utils/validateRegister";
 import { sendEmail } from "../utils/sendEmail";
 import { v4 } from 'uuid';
 import { dataSource } from "../typeormconfig";
+import "dotenv/config";
 
 @ObjectType()
 class FieldError {
@@ -100,7 +101,7 @@ export class UserResolver {
         await redis.set(FORGET_PASSWORD_PREFIX+token, user.id, "EX", 1000 * 60 * 24 * 3 ); //3 days
         await sendEmail(
             email, 
-            `<a href="http://localhost:3001/change-password/${token}">Reset Password</a>`
+            `<a href="${process.env.FRONTEND_URL}/change-password/${token}">Reset Password</a>`
         );
 
         return true;

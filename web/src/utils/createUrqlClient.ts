@@ -1,4 +1,4 @@
-import { dedupExchange, errorExchange, fetchExchange } from "urql";
+import { errorExchange, fetchExchange } from "urql";
 import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation, VoteMutationVariables, DeletePostMutationVariables } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import { cacheExchange, Resolver, Cache } from '@urql/exchange-graphcache';
@@ -62,13 +62,18 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   if(isServer()) {
     cookie = ctx.req.headers.cookie;
   }
+  const schemaUrl = process.env.NEXT_PUBLIC_GRAPHQL_SCHEMA_URL;
+  if(!schemaUrl) {
+    throw new Error("No schema URL defined");
+  }
+
   return {
-    url: 'http://localhost:4001/graphql',
+    url:  schemaUrl,
     fetchOptions: {
       credentials: "include" as const,
       headers: cookie ? { cookie } : undefined
     },
-    exchanges: [dedupExchange, cacheExchange({
+    exchanges: [cacheExchange({
       keys: {
         PaginatedPosts: () => null
       },
@@ -92,7 +97,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
                   voteStatus
                 }
               `,
-              { id: postId }
+              { id: postId } as any
             );
             console.log('data: ', data);
             if(data) {
