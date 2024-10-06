@@ -60,7 +60,7 @@ const invalidateAllPosts = ( cache: Cache ) => {
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = '';
   if(isServer()) {
-    cookie = ctx.req.headers.cookie;
+    cookie = ctx?.req.headers.cookie;
   }
   const schemaUrl = process.env.NEXT_PUBLIC_GRAPHQL_SCHEMA_URL;
   if(!schemaUrl) {
@@ -168,7 +168,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
       }
     }), 
     ssrExchange, errorExchange({
-      onError(error) {
+      onError(error: any) {
         if(error.message.includes("Not authenticated")) {
           Router.push("/login");
         }
