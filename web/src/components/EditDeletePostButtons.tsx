@@ -1,5 +1,5 @@
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
-import { Box, IconButton, Link } from '@chakra-ui/react';
+import { MdEdit, MdDelete  } from "react-icons/md";
+import { Box, IconButton, Link as ChakraLink } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import React from 'react';
 import { useDeletePostMutation, useMeQuery } from '../generated/graphql';
@@ -16,21 +16,20 @@ export const EditDeletePostButtons: React.FC<EditDeletePostButtonsProps> = ({ id
         return null;
     }
     return (
-        <Box>
-            <NextLink href='/post/edit/[id]' as={`/post/edit/${id}`}>
+        <Box display={"flex"}>
+            <ChakraLink as={NextLink} href={`/post/edit/${id}`} >
             <IconButton 
                 aria-label="Edit Post"
-                as={Link}
-                icon={<EditIcon/>}
                 mr={4}
-            />
-            </NextLink>
+                variant={"surface"}
+            > <MdEdit /> </IconButton>
+            </ChakraLink>
             <IconButton 
             aria-label="Delete Post" 
-            icon={<DeleteIcon/>}
+            variant={"surface"}
             onClick={() => {
                 deletePost({ id });
-            }}/>
+            }}> <MdDelete color="darkred" /> </IconButton>
         </Box> 
     );
 }

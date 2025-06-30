@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link as ChakraLink, Stack, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import { useState } from "react";
@@ -17,23 +17,21 @@ const Index = () =>{
   if(!fetching && !data) {
     return(<div>{error?.message}</div>);
   }
- 
+
   return(
     <Layout>
       {!data ? (
         <div>loading</div>
       ) : (
-        <Stack spacing={8}>{
+        <Stack gap={8}>{
           data.posts.posts.map((p) => !p ? null : (
             <Flex key={p.id} p={5} shadow='md' borderWidth='1px' >
               <UpdootSection post={p} />
               <Box flex={1}>
-                <NextLink href="/post/[id]" as={`/post/${p.id}`}>
-                  <Link>
-                    <Heading fontSize='xl'>{p.title}</Heading> 
-                  </Link>
-                </NextLink>
-                <Text>posted by { p.creator.username }</Text>
+                <ChakraLink as={NextLink} href={`/post/${p.id}`}>
+                  <Heading fontSize="xl">{p.title}</Heading>
+                </ChakraLink>
+                <Text fontWeight={"light"} color={"GrayText"}>posted by { p.creator.username }</Text>
                 <Flex align='center'>
                   <Text flex={1} mt={4}>{p.textSnippet}</Text>
                     <Box ml="auto">
@@ -52,7 +50,7 @@ const Index = () =>{
               limit: variables.limit,
               cursor: data.posts.posts[data.posts.posts.length-1].createdAt
             })
-            }} isLoading={fetching} m="auto" my={6}>
+            }} loading={fetching} m="auto" my={6}>
             Load more
           </Button>
         </Flex>
@@ -61,4 +59,4 @@ const Index = () =>{
   );
 };
 
-export default withUrqlClient(createUrqlClient, {ssr: true})(Index);
+export default withUrqlClient(createUrqlClient)(Index);

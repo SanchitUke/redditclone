@@ -61,7 +61,7 @@ const ChangePassword: NextPage = () => {
                             mt={4} 
                             type='submit' 
                             colorScheme='teal' 
-                            isLoading = { isSubmitting }
+                            loading = { isSubmitting }
                         > 
                             Change Password 
                         </Button>

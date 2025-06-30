@@ -62,7 +62,7 @@ const EditPost = ({}) => {
                             mt={4} 
                             type='submit' 
                             colorScheme='teal' 
-                            isLoading = { isSubmitting }
+                            loading = { isSubmitting }
                         > 
                             Update Post 
                         </Button>
